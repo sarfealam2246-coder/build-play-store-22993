@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/vehicle_ctrl.gd" id="1_ctrl"]
+
+[sub_resource type="BoxShape3D" id="Box_gnd"]
+size = Vector3(240, 1, 240)
+
+[sub_resource type="BoxMesh" id="Mesh_gnd"]
+size = Vector3(12, 0.2, 240)
+
+[sub_resource type="BoxShape3D" id="Box_veh"]
+size = Vector3(2.2, 1.8, 4.6)
+
+[sub_resource type="BoxMesh" id="Mesh_veh"]
+size = Vector3(2.2, 1.8, 4.6)
+
+[node name="MainWorld3D" type="Node3D"]
+
+[node name="SunLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866, -0.35, 0.35, 0, 0.707, 0.707, -0.5, -0.61, 0.61, 0, 35, 0)
+shadow_enabled = true
+
+[node name="Ground3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("Box_gnd")
+
+[node name="RoadMesh3D" type="MeshInstance3D" parent="Ground3D"]
+mesh = SubResource("Mesh_gnd")
+
+[node name="PlayerVehicle3D" type="VehicleBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mass = 1400.0
+script = ExtResource("1_ctrl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerVehicle3D"]
+shape = SubResource("Box_veh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerVehicle3D"]
+mesh = SubResource("Mesh_veh")
+
+[node name="Camera3D" type="Camera3D" parent="PlayerVehicle3D"]
+transform = Transform3D(1, 0, 0, 0, 0.94, 0.34, 0, -0.34, 0.94, 0, 4.0, -8.5)
+current = true
